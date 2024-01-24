@@ -38,13 +38,13 @@ services:
     container_name: webserver
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       - wordpress:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
     networks:
       - app-network
-      
+
 volumes:
   wordpress:
   dbdata:

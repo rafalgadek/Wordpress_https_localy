@@ -1,2 +1,11 @@
 # Wordpress_containerisedd
-Containerised Wordpress engine
+
+Overwiew
+- Contenerised Wordpress CMS working localy 
+- Demo
+
+Prerequisites
+- Docker v24 or newer
+
+
+
