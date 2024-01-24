@@ -1,3 +1,5 @@
+version: '3'
+
 services:
   db:
     image: mysql:8.0
@@ -40,7 +42,9 @@ services:
     volumes:
       - wordpress:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
-
+    networks:
+      - app-network
+      
 volumes:
   wordpress:
   dbdata:
