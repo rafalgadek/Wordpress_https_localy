@@ -38,10 +38,12 @@ services:
     container_name: webserver
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "80:80"
+      - "443:443"
     volumes:
       - wordpress:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
+      - ./certs:/etc/nginx/certs
     networks:
       - app-network
 
