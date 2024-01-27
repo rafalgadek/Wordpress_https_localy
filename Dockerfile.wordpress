@@ -1,5 +1,4 @@
-
-FROM ubuntu:latest
+FROM ubuntu:mantic
 
 RUN apt-get update && \
     apt-get install -y \
@@ -7,7 +6,7 @@ RUN apt-get update && \
     php-mysql \
     wget \
     unzip
-    
+
 WORKDIR /var/www/html
 RUN wget https://wordpress.org/latest.tar.gz && \
     tar -xzvf latest.tar.gz && \
