@@ -2,20 +2,23 @@ version: '3'
 
 services:
   db:
-    image: mysql:latest
+    build:
+      context: .
+      dockerfile: Dockerfile_db
     container_name: db
     env_file: .env
     environment:
       - MYSQL_DATABASE=wordpress
     volumes:
       - dbdata:/var/lib/mysql
-    command: '--default-authentication-plugin=mysql_native_password'
 
 
   wordpress:
     depends_on:
       - db
-    image: wordpress:php8.3-fpm-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile_php
     container_name: wordpress
     environment:
       - WORDPRESS_DB_HOST=db:3306

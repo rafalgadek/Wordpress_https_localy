@@ -1,0 +1,48 @@
+# Use a custom Ubuntu base image
+FROM ubuntu:latest
+
+# Set environment variables for WordPress
+ENV WORDPRESS_DB_HOST=localhost
+ENV WORDPRESS_DB_NAME=my_wordpress
+ENV WORDPRESS_DB_USER=root
+ENV WORDPRESS_DB_PASSWORD=root_password
+ENV WORDPRESS_TABLE_PREFIX=wp_
+
+# Install necessary packages, including less and sudo
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    php \
+    php-mysql \
+    php-gd \
+    php-curl \
+    php-json \
+    php-mbstring \
+    php-xml \
+    curl \
+    mysql-client \
+    less \
+    sudo \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install WordPress CLI for automated installations
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp
+
+# Create a non-root user
+RUN useradd -ms /bin/bash wordpressuser
+
+# Set up sudo for the non-root user
+RUN echo "wordpressuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Set the working directory and adjust permissions
+WORKDIR /var/www/html
+RUN wp core download --allow-root && \
+    chown -R wordpressuser:wordpressuser /var/www/html
+
+# Switch to the non-root user before starting the web server
+USER wordpressuser
+
+# Start PHP's built-in web server on container startup
+CMD ["wp"]
