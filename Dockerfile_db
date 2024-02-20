@@ -1,15 +1,17 @@
-# Use a custom Ubuntu base image
 FROM ubuntu:latest
 
-# Install necessary packages and clean up
+ENV MYSQL_ROOT_PASSWORD=root_password
+ENV MYSQL_DATABASE=wordpress
+ENV MYSQL_USER=my_user
+ENV MYSQL_PASSWORD=my_password
+
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+USER $MYSQL_USER:$MYSQL_USER
 
-# Copy custom MySQL configuration file, if needed
-# COPY my.cnf /etc/mysql/my.cnf
+EXPOSE 3306
 
-# Start MySQL service on container startup
-CMD ["mysqld"]
+CMD ["service", "mysql", "start"]
