@@ -2,11 +2,11 @@ version: '3'
 
 services:
   db:
-    image: mysql
+    build:
+      context: .
+      dockerfile: Dockerfile_db
     container_name: db
     env_file: .env
-    environment:
-      - MYSQL_DATABASE=wordpress
     volumes:
       - dbdata:/var/lib/mysql
 
@@ -23,7 +23,7 @@ services:
       - WORDPRESS_DB_HOST=db:3306
       - WORDPRESS_DB_USER=$MYSQL_USER
       - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
-      - WORDPRESS_DB_NAME=wordpress
+      - WORDPRESS_DB_NAME=$MYSQL_DATABASE
     volumes:
       - wordpress:/var/www/wordpress
 
@@ -31,7 +31,9 @@ services:
   webserver:
     depends_on:
       - wordpress
-    image: ubuntu/nginx
+    build:
+      context: .
+      dockerfile: Dockerfile_nginx
     container_name: webserver
     ports:
       - "80:80"
