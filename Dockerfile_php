@@ -23,8 +23,6 @@ WORKDIR /var/www/wordpress
 
 RUN cp wp-config-sample.php wp-config.php
 
-# EXPOSE 9000
-
 COPY entrypoint_php.sh /entrypoint_php.sh
 RUN chmod +x /entrypoint_php.sh
 
