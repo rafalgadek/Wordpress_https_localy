@@ -1,0 +1,29 @@
+FROM ubuntu:latest
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    php-fpm \
+    php-common \
+    php-mbstring \
+    php-gd \
+    php-intl \
+    php-xml \
+    php-mysql \
+    wget \
+    sudo \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /var/www/
+
+RUN wget http://wordpress.org/latest.tar.gz && \
+    tar xzvf latest.tar.gz
+
+WORKDIR /var/www/wordpress
+
+RUN cp wp-config-sample.php wp-config.php
+
+COPY entrypoint_php.sh /entrypoint_php.sh
+RUN chmod +x /entrypoint_php.sh
+
+ENTRYPOINT ["/entrypoint_php.sh"]

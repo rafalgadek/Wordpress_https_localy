@@ -23,10 +23,10 @@
 mkcert -install
 ```
 
-- create ./cert directory
+- create ./certs directory
 
 ```bash
-mkdir cert
+mkdir certs
 ```
 
 - to create certificate and key .pem files in ./cert use:
