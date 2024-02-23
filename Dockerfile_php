@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:18.04
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -22,6 +22,8 @@ RUN wget http://wordpress.org/latest.tar.gz && \
 WORKDIR /var/www/wordpress
 
 RUN cp wp-config-sample.php wp-config.php
+
+RUN mkdir -p /run/php
 
 COPY entrypoint_php.sh /entrypoint_php.sh
 RUN chmod +x /entrypoint_php.sh
